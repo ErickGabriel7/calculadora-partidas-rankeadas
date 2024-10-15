@@ -13,31 +13,29 @@ const levels = {
   9: 'Imortal',
 };
 
-function classifyRank(wins, loses) {
-  let balance = wins - loses;
-  let level = Math.floor((wins - 1) / 10);
-  let rank;
-  if (wins == 0) {
-    return { balanceWins: balance, level: levels[0] };
+function getLevel(wins) {
+  if (wins <= 0) {
+    return 0;
   }
-  return { balanceWins: balance, level: levels[level] || 'Radiante' };
+  return Math.floor((wins - 1) / 10);
 }
 
-function getValidNaturalNumber(message) {
-  let isValid = false;
-  let data;
-  while (!isValid) {
-    data = prompt(message);
-    data = parseInt(data, 10);
-    if (isNaN(data) || data < 0) {
-      console.log('Dados incorretos, tente novamente.');
-    } else {
-      return data;
-    }
-  }
+function classifyRank(wins, loses) {
+  const balanceWins = wins - loses;
+  const levelIndex = getLevel(wins);
+  const level = levels[levelIndex] || 'Radiante';
+
+  return { balanceWins, level };
+}
+
+function getNumberFromPrompt(message) {
+  const data = prompt(message);
+  const dataNumber = parseInt(data, 10);
+
+  return dataNumber;
 }
 
 module.exports = {
   classifyRank,
-  getValidNaturalNumber,
+  getNumberFromPrompt,
 };
